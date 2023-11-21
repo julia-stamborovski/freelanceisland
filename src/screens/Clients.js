@@ -20,6 +20,7 @@ import "../App.css";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { getAuth } from 'firebase/auth';
 
 function Clients() {
   const [clientData, setClientData] = useState({
@@ -42,20 +43,33 @@ function Clients() {
 
   async function addClient() {
     try {
-      const docRef = await addDoc(clientCollectionRef, clientData);
+      const auth = getAuth();
+      const user = auth.currentUser;
+  
+      if (!user) {
+        handleErrorSnackbarOpen("Usuário não autenticado. Faça o login.");
+        return;
+      }
+  
+      const docRef = await addDoc(clientCollectionRef, {
+        ...clientData,
+        userId: user.uid,
+      });
+  
       console.log("Novo cliente adicionado com sucesso com o ID: ", docRef.id);
       setClientData({
         name: "",
         contact: "",
         notes: "",
       });
-      handleSuccessSnackbarOpen("Novo cliente adicionado com sucesso!")
+      handleSuccessSnackbarOpen("Novo cliente adicionado com sucesso!");
       loadClients();
     } catch (error) {
-      handleErrorSnackbarOpen("Erro ao adicionar novo cliente.")
+      handleErrorSnackbarOpen("Erro ao adicionar novo cliente.");
       console.error("Erro ao adicionar novo cliente: ", error);
     }
   }
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -134,16 +148,29 @@ function Clients() {
 
   async function loadClients() {
     try {
-      const querySnapshot = await getDocs(clientCollectionRef);
+      const auth = getAuth();
+      const user = auth.currentUser;
+  
+      if (!user) {
+        handleErrorSnackbarOpen("Usuário não autenticado. Faça o login.");
+        return;
+      }
+  
+      const querySnapshot = await getDocs(
+        query(clientCollectionRef, where("userId", "==", user.uid))
+      );
+  
       const clientsData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+  
       setClients(clientsData);
     } catch (error) {
       console.error("Erro ao carregar clientes: ", error);
     }
   }
+  
 
   async function loadClientProjects(clientId) {
     try {

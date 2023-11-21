@@ -11,6 +11,8 @@ import {
   getDocs,
   getDoc,
   updateDoc,
+  where,
+  query,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import Modal from "@mui/material/Modal";
@@ -19,6 +21,7 @@ import "../App.css";
 import { Snackbar, Stack } from "@mui/material";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import { getAuth } from "firebase/auth";
 
 function ProjectExpenses() {
   const [projectExpensesData, setProjectExpensesData] = useState({
@@ -63,24 +66,34 @@ const handleSnackbarClose = () => {
   setOpenErrorSnackbar(false);
 };
 
+async function addProject() {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-  async function addProject() {
-    try {
-      const docRef = await addDoc(projectsExpensesCollection, projectExpensesData);
-      console.log("Nova despesa adicionada com sucesso com o ID: ", docRef.id);
-      setProjectExpensesData({
-        title: "",
-        custo: '',
-        projectId: "", 
-      });
-      loadProjectsExpense();
-      handleSuccessSnackbarOpen("Despesa adicionada com sucesso!" )
-
-    } catch (error) {
-      console.error("Erro ao adicionar nova despesa: ", error);
-      handleErrorSnackbarOpen("Erro ao adicionar nova despesa")
+    if (!user) {
+      handleErrorSnackbarOpen("Usuário não autenticado. Faça o login.");
+      return;
     }
+
+    const docRef = await addDoc(projectsExpensesCollection, {
+      ...projectExpensesData,
+      userId: user.uid,
+    });
+
+    console.log("Nova despesa adicionada com sucesso com o ID: ", docRef.id);
+    setProjectExpensesData({
+      title: "",
+      custo: "",
+      projectId: "",
+    });
+    loadProjectsExpense();
+    handleSuccessSnackbarOpen("Despesa adicionada com sucesso!");
+  } catch (error) {
+    console.error("Erro ao adicionar nova despesa: ", error);
+    handleErrorSnackbarOpen("Erro ao adicionar nova despesa");
   }
+}
 
   async function deleteProject(id) {
     try {
@@ -141,29 +154,56 @@ const handleSnackbarClose = () => {
 
   async function loadProjectsExpense() {
     try {
-      const querySnapshot = await getDocs(projectsExpensesCollection);
+      const auth = getAuth();
+      const user = auth.currentUser;
+  
+      if (!user) {
+        handleErrorSnackbarOpen("Usuário não autenticado. Faça o login.");
+        return;
+      }
+  
+      const querySnapshot = await getDocs(
+        query(projectsExpensesCollection, where("userId", "==", user.uid))
+      );
+  
       const projectsExpensesData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+  
       setprojectExpense(projectsExpensesData);
     } catch (error) {
       console.error("Erro ao carregar despesas: ", error);
     }
   }
+  
 
   async function loadProjects() {
     try {
-      const querySnapshot = await getDocs(projectsCollectionRef);
+      const auth = getAuth();
+      const user = auth.currentUser;
+  
+      if (!user) {
+        handleErrorSnackbarOpen("Usuário não autenticado. Faça o login.");
+        return;
+      }
+  
+      const querySnapshot = await getDocs(
+        query(projectsCollectionRef, where("userId", "==", user.uid))
+      );
+  
       const projectsData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+  
       setProjects(projectsData);
     } catch (error) {
       console.error("Erro ao carregar projetos: ", error);
+      handleErrorSnackbarOpen("Erro ao carregar projetos. Tente novamente.");
     }
   }
+  
   
 
   useEffect(() => {
