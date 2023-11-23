@@ -3,7 +3,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import logo from "../logo.png";
 import {
   collection,
   addDoc,
@@ -36,7 +35,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { CustomTabPanel, a11yProps } from "../components/CustomTabPanel";
 import { getAuth } from 'firebase/auth';
 import NavBar from "../components/NavBar";
-
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
 
 function Projects() {
   const [value, setValue] = React.useState(0);
@@ -51,7 +52,7 @@ function Projects() {
     desc: "",
     prazo: "",
     orcamento: "",
-    status: "",
+    status: "Ativo",
     clientId: "", // Adicionando o campo clientId para relacionar com o cliente
   });
   const [clients, setClients] = useState([]);
@@ -249,8 +250,7 @@ function Projects() {
   }, []);
 
   return (
-    <div className="App">
-      <img src={logo} alt="logo" style={{ height: 200 }} className="logo" />
+    <div className="bg-black h-full App">
     <NavBar/>
       <Box sx={{ width: "100%" }}>
         <Box
@@ -265,7 +265,7 @@ function Projects() {
         </Box>
         <CustomTabPanel value={value} index={0} className="form">
           <Stack spacing={2}>
-            <h1>Gerenciamento de Projetos</h1>
+            <h1 className="text-xl text-white/70  py-2">Gerenciamento de Projetos</h1>
             <FormLabel>Nome do Projeto</FormLabel>
             <TextField
               fullWidth
@@ -295,24 +295,34 @@ function Projects() {
                 setProjectData({ ...projectData, prazo: e.target.value })
               }
             />
-            <FormLabel>Orçamento</FormLabel>
-            <TextField
-              fullWidth
-              type="text"
-              value={projectData.orcamento}
-              onChange={(e) =>
-                setProjectData({ ...projectData, orcamento: e.target.value })
-              }
-            />
-            <FormLabel>Status</FormLabel>
-            <TextField
-              fullWidth
-              type="text"
-              value={projectData.status}
-              onChange={(e) =>
-                setProjectData({ ...projectData, status: e.target.value })
-              }
-            />
+                        <FormLabel>Orçamento</FormLabel>
+
+             <TextField
+        fullWidth
+        type="number"
+        InputProps={{
+          startAdornment: <InputAdornment position="start" className='reais'>R$</InputAdornment>,
+        }}
+        value={projectData.orcamento}
+        onChange={(e) =>
+          setProjectData({ ...projectData, orcamento: e.target.value })
+        }
+      />
+       
+              <FormControl fullWidth>
+              <FormLabel>Status</FormLabel>
+              <Select
+                label="Status"
+                value={projectData.status}
+                onChange={(e) =>
+                  setProjectData({ ...projectData, status: e.target.value })
+                }
+              >
+                <MenuItem  value="Ativo">Ativo</MenuItem>
+                <MenuItem value="Concluído" disabled={true}>Concluído</MenuItem>
+                
+              </Select>
+            </FormControl>
             <FormControl fullWidth>
               <FormLabel>Cliente</FormLabel>
               <Select
@@ -418,15 +428,20 @@ function Projects() {
                   }
                 />
 
-                <TextField
-                  fullWidth
-                  type="text"
-                  label="Status"
-                  value={projectData.status}
-                  onChange={(e) =>
-                    setProjectData({ ...projectData, status: e.target.value })
-                  }
-                />
+<FormControl fullWidth>
+              <FormLabel>Status</FormLabel>
+              <Select
+                label="Status"
+                value={projectData.status}
+                onChange={(e) =>
+                  setProjectData({ ...projectData, status: e.target.value })
+                }
+              >
+                <MenuItem  value="Ativo">Ativo</MenuItem>
+                <MenuItem value="Concluído">Concluído</MenuItem>
+                
+              </Select>
+            </FormControl>
                 <FormControl fullWidth>
                   <Select
                     label="Cliente"

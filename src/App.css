@@ -1,33 +1,42 @@
-body{
-  background-color: #232946;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  background-color: #000;
 }
-
 .form {
-  background-color: #b8c1ec;
+  background-color: #0A0A0A;
   margin-right: 10rem;
   margin-left: 10rem;
   margin-top: 2rem;
   margin-bottom: 10rem;
   border-radius: 1rem;
 }
-
+.App label {
+  color: #fff !important;
+}
+.App input, .MuiSelect-select, textarea{
+  color: #fff !important;
+}
 .tabs-css {
   border-radius: 0px 30px 30px 0px ;
   margin-right: 5rem;
   padding: 0.5rem;
   margin-top: 1rem;
+  background-color: #0000004a !important;
 }
-
+.tabs-css button {
+ color: #fff !important;
+}
 .logo {
-  display: flex;
-  justify-content: center;
-  margin-right: auto;
-  margin-left: auto;
+ font-weight: bold;
 
 }
-
+.appbar {
+  background-color: #000 !important;
+}
 .card-list {
-  background-color: #232946;
+  background-color: #000;
   margin-top: 1rem;
   padding: 1rem;
   color: #b8c1ec;
@@ -42,4 +51,14 @@ body{
 
 .button-actions-project {
   margin-right: 1rem !important;
+}
+
+.css-1pnmrwp-MuiTypography-root{
+  color: #FEFEFE !important;
+}
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+  background-color: #151515 !important;
+}
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper, p, input, label{
+ color: #fff !important;
 }

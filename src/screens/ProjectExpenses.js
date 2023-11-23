@@ -22,6 +22,9 @@ import { Snackbar, Stack } from "@mui/material";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { getAuth } from "firebase/auth";
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
 
 function ProjectExpenses() {
   const [projectExpensesData, setProjectExpensesData] = useState({
@@ -213,12 +216,13 @@ async function addProject() {
 
   return (
     <div className="App">
-      <h1>Gerenciamento de Despesas</h1>
+      <h1 className="text-xl text-white/70  py-2">Gerenciamento de Despesas</h1>
       <Stack spacing={2} className="">
       <TextField
         fullWidth
         type="text"
-        label="Título"
+        label="Despesa"
+        placeholder='luz, hardware...'
         value={projectExpensesData.title}
         onChange={(e) =>
           setProjectExpensesData({ ...projectExpensesData, title: e.target.value })
@@ -226,14 +230,16 @@ async function addProject() {
       />
       <TextField
         fullWidth
-        type="text"
+        type="number"
         label="Custo"
+        InputProps={{
+          startAdornment: <InputAdornment position="start" className='reais'>R$</InputAdornment>,
+        }}
         value={projectExpensesData.custo}
         onChange={(e) =>
           setProjectExpensesData({ ...projectExpensesData, custo: e.target.value })
         }
       />
-     
       
       <FormControl fullWidth>
         <label>Selecione um projeto</label>

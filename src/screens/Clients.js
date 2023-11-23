@@ -189,7 +189,7 @@ function Clients() {
   return (
     <div className="App">
     <Stack spacing={2} className="">
-    <h1>Gerenciamento de Clientes</h1>
+    <h1 className="text-xl text-white/70  py-2"> Gerenciamento de Clientes</h1>
 
       <TextField
         fullWidth

@@ -31,7 +31,7 @@ const router = createBrowserRouter([
 ])
 function App() {
   return (
-   <AuthProvider>
+   <AuthProvider className='bg-black h-full'>
     { <RouterProvider router={router}></RouterProvider>}
    </AuthProvider>
   );
