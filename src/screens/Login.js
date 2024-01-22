@@ -49,9 +49,9 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className=" p-8 rounded shadow-md w-full max-w-md">
         <h1 className='text-white text-4xl font-bold  mb-1'>
-          freelanceisland
+        <img className='h-20' src='https://static.wixstatic.com/media/b1ca23_678ea2c291284b3186fe1f4bb9a742ce~mv2.png/v1/crop/x_0,y_217,w_1920,h_661/fill/w_395,h_136,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/b1ca23_678ea2c291284b3186fe1f4bb9a742ce~mv2.png' />
         </h1>
-        <p className='text-white/50 mb-4'>Onde todos são chefes da praia e não há crachás de tubarões! 🏝️💼</p>
+        <p className='text-white/50 mb-4'>Um laboratório para chamar de seu.</p>
         <h2 className="text-2xl font-semibold mb-8  text-white/50">Login</h2>
         <div className='pb-12'>
         <TextField
@@ -76,12 +76,7 @@ const Login = () => {
         >
           Login
         </button>
-        <button
-          className="bg-black hover:bg-blue-700 text-white border-white border font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={loginWithGitHub}
-        >
-          Entrar com <GitHubIcon />
-        </button>
+      
         </div>
         <p>Não possuo uma conta <a href='/register'className='text-blue-500 font-semibold hover:text-blue-400'>fazer cadastro</a></p>
 

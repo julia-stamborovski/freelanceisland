@@ -44,7 +44,7 @@ export default function NavBar() {
         <Toolbar>
      
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} className='logo'>
-            freelanceisland
+            <img className='h-20' src='https://static.wixstatic.com/media/b1ca23_678ea2c291284b3186fe1f4bb9a742ce~mv2.png/v1/crop/x_0,y_217,w_1920,h_661/fill/w_395,h_136,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/b1ca23_678ea2c291284b3186fe1f4bb9a742ce~mv2.png' />
           </Typography>
           {auth && (
             <div>
